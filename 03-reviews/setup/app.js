@@ -49,60 +49,51 @@ const prevBtn = document.querySelector(".prev-btn")
 const nextBtn = document.querySelector(".next-btn")
 const randomBtn = document.querySelector(".random-btn")
 
-let i = 0
-image.src = reviews[i]["img"]
-author.textContent = reviews[i]["name"]
-job.textContent = reviews[i]["job"]
-info.textContent = reviews[i]["text"]
+let currentItem = 0
 
+window.addEventListener("DOMContentLoaded", function(){
+  showPerson(currentItem)
+})
+
+function showPerson(person){
+  const item = reviews[person]
+  image.src = item.img
+  author.textContent = item.name
+  job.textContent = item.job
+  info.textContent = item.text
+}
 
 nextBtn.addEventListener("click", function(){
-  if(i < reviews.length - 1 ){
-    i++
-    image.src = reviews[i]["img"]
-    author.textContent = reviews[i]["name"]
-    job.textContent = reviews[i]["job"]
-    info.textContent = reviews[i]["text"]
-  } else {
-    i = 0
-    image.src = reviews[i]["img"]
-    author.textContent = reviews[i]["name"]
-    job.textContent = reviews[i]["job"]
-    info.textContent = reviews[i]["text"]
+  currentItem++
+  if(currentItem > reviews.length - 1 ){
+    currentItem = 0
   }
-    
+    showPerson(currentItem)
 })
 
 prevBtn.addEventListener("click", function(){
-  if(i == 0 ){
-    i = reviews.length - 1
-    image.src = reviews[i]["img"]
-    
-  } else {
-    i--
-    image.src = reviews[i]["img"]
-  }  
+  currentItem--
+  if(currentItem < 0 ){
+    currentItem = reviews.length - 1
+  }
+    showPerson(currentItem)
 })
 
 randomBtn.addEventListener("click", function(){
-  i = randomNumberFunc()
-  j = randomNumberFunc()
-  if( i === j){
-    i = randomNumberFunc()
+  let firstRandom = randomNumberFunc()
+  currentItem = randomNumberFunc()
+  if ( currentItem === firstRandom){
+    currentItem = randomNumberFunc()
+    showPerson(currentItem)
   }
-  image.src = reviews[i]["img"]
-  author.textContent = reviews[i]["name"]
-  job.textContent = reviews[i]["job"]
-  info.textContent = reviews[i]["text"]
-  console.log(i)
-
+  showPerson(currentItem)
 })
 
 function randomNumberFunc(){
   return Math.floor(Math.random() * reviews.length)
 }
 
-console.log()
+console.clear()
 
 
 
